@@ -34,6 +34,15 @@ const products = [
     },
     priceCents: 799,
   },
+  {
+    image: 'images/products/black-2-slot-toaster.jpg',
+    name: '2 Slot Toaster - Black',
+    rating: {
+      stars: 5.0,
+      count: 2197,
+    },
+    priceCents: 1899,
+  },
 ];
 
 /* gunanya foreach itu mengambil setiap object 
@@ -64,8 +73,8 @@ products.forEach((product) => {
       }</div>
     </div>
 
-    <div class="product-price">$${product.priceCents / 100}</div>
-
+    <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+    
     <div class="product-quantity-container">
       <select>
         <option selected value="1">1</option>
