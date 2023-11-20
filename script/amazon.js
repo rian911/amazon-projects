@@ -63,3 +63,9 @@ products.forEach((product) => {
 });
 
 document.querySelector('.products-grid').innerHTML = productsHTML;
+
+document.querySelectorAll('.add-to-cart-button').forEach((button) => {
+  button.addEventListener('click', () => {
+    console.log('added product');
+  });
+});
