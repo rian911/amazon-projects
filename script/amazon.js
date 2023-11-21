@@ -58,14 +58,48 @@ products.forEach((product) => {
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary">Add to Cart</button>
+    <button class="add-to-cart-button button-primary" data-product-name="${
+      product.name
+    }">Add to Cart</button>
   </div>`;
 });
 
+// merubah isi didalam class products-grid menjadi productsHTML
 document.querySelector('.products-grid').innerHTML = productsHTML;
 
+// Memilih semua elemen dengan class 'add-to-cart-button'
 document.querySelectorAll('.add-to-cart-button').forEach((button) => {
+  // Menambahkan event listener untuk setiap elemen
   button.addEventListener('click', () => {
-    console.log('added product');
+    // Mengambil product name dari dataset attribute button
+    const productName = button.dataset.productName;
+
+    // Inisialisasi variabel untuk menyimpan item yang sama dalam keranjang
+    let matchingItem;
+
+    // dibawah ini code untuk mengecek apakah ada product yang sama ketika ditambahkan kedalam cart array (apakah didalam cart array sudah ada product yg sama?)
+    // Iterasi melalui setiap item dalam keranjang
+    // parameter item ini berisi productName dan quantity
+    cart.forEach((item) => {
+      // Memeriksa apakah nama produk saat ini sama dengan produk yang akan ditambahkan
+      if (productName === item.productName) {
+        // Jika sama, simpan referensi ke item tersebut
+        matchingItem = item;
+      }
+    });
+
+    // Setelah iterasi selesai, periksa apakah ada item yang cocok
+    if (matchingItem) {
+      // Jika ada, tambahkan satu unit ke quantity item yang cocok
+      matchingItem.quantity += 1;
+    } else {
+      // Jika tidak ada item yang cocok, tambahkan produk baru ke dalam keranjang
+      cart.push({
+        // namanya bebas, valuenya dari const diatas
+        productName: productName,
+        quantity: 1,
+      });
+    }
+    console.log(cart);
   });
 });
