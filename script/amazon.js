@@ -58,8 +58,8 @@ products.forEach((product) => {
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary" data-product-name="${
-      product.name
+    <button class="add-to-cart-button button-primary" data-product-id="${
+      product.id
     }">Add to Cart</button>
   </div>`;
 });
@@ -72,7 +72,7 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
   // Menambahkan event listener untuk setiap elemen
   button.addEventListener('click', () => {
     // Mengambil product name dari dataset attribute button
-    const productName = button.dataset.productName;
+    const productId = button.dataset.productId;
 
     // Inisialisasi variabel untuk menyimpan item yang sama dalam keranjang
     let matchingItem;
@@ -82,7 +82,7 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
     // parameter item ini berisi productName dan quantity
     cart.forEach((item) => {
       // Memeriksa apakah nama produk saat ini sama dengan produk yang akan ditambahkan
-      if (productName === item.productName) {
+      if (productId === item.productId) {
         // Jika sama, simpan referensi ke item tersebut
         matchingItem = item;
       }
@@ -96,7 +96,7 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       // Jika tidak ada item yang cocok, tambahkan produk baru ke dalam keranjang
       cart.push({
         // namanya bebas, valuenya dari const diatas
-        productName: productName,
+        productId: productId,
         quantity: 1,
       });
     }
