@@ -1,4 +1,5 @@
 /* 
+this node
 this for note
 main idea of javascript
 1. save the data
