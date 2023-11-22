@@ -37,7 +37,7 @@ products.forEach((product) => {
     <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
     
     <div class="product-quantity-container">
-      <select>
+      <select class="js-quantity-selector-${product.id}">
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -88,16 +88,26 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       }
     });
 
+    // 1. tadi salah lu naroh diatas jadinya productid gk kedetec undefined
+    // 2. productid penulisannya juga salah, awalnya nulis product.id kan harusnya productID berubah wey
+
+    // ini untuk memasukan nilai dari selected value ke variabel quantitySelector
+    const quantitySelecor = document.querySelector(
+      `.js-quantity-selector-${productId}`
+    );
+    // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
+    const selectedQuantity = Number(quantitySelecor.value);
+
     // Setelah iterasi selesai, periksa apakah ada item yang cocok
     if (matchingItem) {
       // Jika ada, tambahkan satu unit ke quantity item yang cocok
-      matchingItem.quantity += 1;
+      matchingItem.quantity += selectedQuantity;
     } else {
       // Jika tidak ada item yang cocok, tambahkan produk baru ke dalam keranjang
       cart.push({
         // namanya bebas, valuenya dari const diatas
         productId: productId,
-        quantity: 1,
+        quantity: selectedQuantity,
       });
     }
 
