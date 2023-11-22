@@ -72,7 +72,9 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
   // Menambahkan event listener untuk setiap elemen
   button.addEventListener('click', () => {
     // Mengambil product name dari dataset attribute button
-    const productId = button.dataset.productId;
+    // const productId = button.dataset.productId;
+    // destructuring code jadi di bawah ini
+    const { productId } = button.dataset;
 
     // Inisialisasi variabel untuk menyimpan item yang sama dalam keranjang
     let matchingItem;
@@ -106,8 +108,11 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       // Jika tidak ada item yang cocok, tambahkan produk baru ke dalam keranjang
       cart.push({
         // namanya bebas, valuenya dari const diatas
-        productId: productId,
-        quantity: selectedQuantity,
+        //destructuring code ini dibawah ini
+        // productId: productId,
+        // quantity: selectedQuantity,
+        productId,
+        quantity,
       });
     }
 
