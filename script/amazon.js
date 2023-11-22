@@ -90,10 +90,12 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
 
     // 1. tadi salah lu naroh diatas jadinya productid gk kedetec undefined
     // 2. productid penulisannya juga salah, awalnya nulis product.id kan harusnya productID berubah wey
+
+    // ini untuk memasukan nilai dari selected value ke variabel quantitySelector
     const quantitySelecor = document.querySelector(
       `.js-quantity-selector-${productId}`
     );
-
+    // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
     const selectedQuantity = Number(quantitySelecor.value);
 
     // Setelah iterasi selesai, periksa apakah ada item yang cocok
