@@ -104,6 +104,9 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
     );
 
     addedMessage.classList.add('added-to-cart-visible');
+    setTimeout(() => {
+      addedMessage.classList.remove('added-to-cart-visible');
+    }, 2000);
     // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
     const selectedQuantity = Number(quantitySelecor.value);
 
