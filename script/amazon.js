@@ -102,6 +102,8 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
     const addedMessage = document.querySelector(
       `.js-added-to-cart-${productId}`
     );
+
+    addedMessage.classList.add('added-to-cart-visible');
     // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
     const selectedQuantity = Number(quantitySelecor.value);
 
@@ -114,10 +116,8 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       cart.push({
         // namanya bebas, valuenya dari const diatas
         //destructuring code ini dibawah ini
-        // productId: productId,
-        // quantity: selectedQuantity,
-        productId,
-        quantity,
+        productId: productId,
+        quantity: selectedQuantity,
       });
     }
 
