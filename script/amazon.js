@@ -98,6 +98,10 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
     const quantitySelecor = document.querySelector(
       `.js-quantity-selector-${productId}`
     );
+
+    const addedMessage = document.querySelector(
+      `.js-added-to-cart-${productId}`
+    );
     // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
     const selectedQuantity = Number(quantitySelecor.value);
 
