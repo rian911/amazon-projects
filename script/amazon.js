@@ -54,7 +54,7 @@ products.forEach((product) => {
 
     <div class="product-spacer"></div>
 
-    <div class="added-to-cart">
+    <div class="added-to-cart js-added-to-cart-${product.id}">
       <img src="images/icons/checkmark.png" />
       Added
     </div>
@@ -98,6 +98,15 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
     const quantitySelecor = document.querySelector(
       `.js-quantity-selector-${productId}`
     );
+
+    const addedMessage = document.querySelector(
+      `.js-added-to-cart-${productId}`
+    );
+
+    addedMessage.classList.add('added-to-cart-visible');
+    setTimeout(() => {
+      addedMessage.classList.remove('added-to-cart-visible');
+    }, 2000);
     // nah kan hasil value tadi bentuknya string harus berubah jadi number pake cara ini dan disimpan ke variabel selectedQuantity
     const selectedQuantity = Number(quantitySelecor.value);
 
@@ -110,10 +119,8 @@ document.querySelectorAll('.add-to-cart-button').forEach((button) => {
       cart.push({
         // namanya bebas, valuenya dari const diatas
         //destructuring code ini dibawah ini
-        // productId: productId,
-        // quantity: selectedQuantity,
-        productId,
-        quantity,
+        productId: productId,
+        quantity: selectedQuantity,
       });
     }
 
