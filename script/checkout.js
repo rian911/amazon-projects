@@ -1,5 +1,6 @@
 import { cart } from '../data/cart.js';
 import { products } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 
 let cartsummaryHTML = '';
 // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
@@ -28,7 +29,9 @@ cart.forEach((cartItem) => {
 
       <div class="cart-item-details">
         <div class="product-name">${matchingProduct.name}</div>
-        <div class="product-price">$${matchingProduct.price / 100}</div>
+        <div class="product-price">$${formatCurrency(
+          matchingProduct.priceCents
+        )}</div>
         <div class="product-quantity">
           <span>
             Quantity:
