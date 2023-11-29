@@ -1,6 +1,7 @@
 import { cart } from '../data/cart.js';
 import { products } from '../data/products.js';
 
+let cartsummaryHTML = '';
 // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
 cart.forEach((cartItem) => {
   // kemudian variabel productId dan memberikan value berupa cartItem.productId
@@ -16,22 +17,22 @@ cart.forEach((cartItem) => {
       matchingProduct = product;
     }
   });
-  `<div class="cart-item-container">
+  cartsummaryHTML += `<div class="cart-item-container">
     <div class="delivery-date">Delivery date: Wednesday, June 15</div>
 
     <div class="cart-item-details-grid">
       <img
         class="product-image"
-        src="images/products/intermediate-composite-basketball.jpg"
+        src="${matchingProduct.image}"
       />
 
       <div class="cart-item-details">
-        <div class="product-name">Intermediate Size Basketball</div>
-        <div class="product-price">$20.95</div>
+        <div class="product-name">${matchingProduct.name}</div>
+        <div class="product-price">$${matchingProduct.price / 100}</div>
         <div class="product-quantity">
           <span>
             Quantity:
-            <span class="quantity-label">1</span>
+            <span class="quantity-label">${cartItem.quantity}</span>
           </span>
           <span class="update-quantity-link link-primary">Update</span>
           <span class="delete-quantity-link link-primary">Delete</span>
@@ -80,5 +81,7 @@ cart.forEach((cartItem) => {
       </div>
     </div>
   </div>`;
-  console.log(matchingProduct);
+  console.log(cartsummaryHTML);
 });
+
+document.querySelector('.order-summary').innerHTML = cartsummaryHTML;
