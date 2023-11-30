@@ -1,13 +1,23 @@
-export let cart = [
-  {
-    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-    quantity: 2,
-  },
-  {
-    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c7',
-    quantity: 1,
-  },
-];
+export let cart = JSON.parse(localStorage.getItem('cart'));
+
+// jika cart kosong maka akan diisi object dibawah
+if (!cart) {
+  cart = [
+    {
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+      quantity: 2,
+    },
+    {
+      productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c7',
+      quantity: 1,
+    },
+  ];
+}
+
+// save to storage
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 export function addtoCart(productId) {
   // Inisialisasi variabel untuk menyimpan item yang sama dalam keranjang
@@ -54,6 +64,8 @@ export function addtoCart(productId) {
       quantity: selectedQuantity,
     });
   }
+
+  saveToStorage();
 }
 
 export function updateCartQuantity() {
@@ -65,6 +77,7 @@ export function updateCartQuantity() {
   console.log(cart);
 }
 
+// remove cart
 export function removeCart(productId) {
   const newCart = [];
 
@@ -75,4 +88,5 @@ export function removeCart(productId) {
   });
 
   cart = newCart;
+  saveToStorage();
 }
