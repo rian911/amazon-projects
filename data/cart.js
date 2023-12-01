@@ -68,12 +68,12 @@ export function addtoCart(productId) {
   saveToStorage();
 }
 
-export function updateCartQuantity() {
+export function updateCartQuantity(clas) {
   let cartQuantity = 0;
   cart.forEach((item) => {
     cartQuantity += item.quantity;
   });
-  document.querySelector('.cart-quantity').innerHTML = cartQuantity;
+  document.querySelector(clas).innerHTML = cartQuantity;
   console.log(cart);
 }
 

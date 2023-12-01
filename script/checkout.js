@@ -1,4 +1,4 @@
-import { cart, removeCart } from '../data/cart.js';
+import { cart, removeCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -18,6 +18,7 @@ cart.forEach((cartItem) => {
       matchingProduct = product;
     }
   });
+
   cartsummaryHTML += `<div class="cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">Delivery date: Wednesday, June 15</div>
 
@@ -99,5 +100,9 @@ document.querySelectorAll('.delete-quantity-link').forEach((link) => {
       `.cart-item-container-${productId}`
     );
     container.remove();
+
+    updateCartQuantity('.return-to-home-link');
   });
 });
+
+updateCartQuantity('.return-to-home-link');
