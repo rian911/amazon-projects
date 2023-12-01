@@ -114,6 +114,10 @@ updateCartQuantity('.return-to-home-link');
 document.querySelectorAll('.update-quantity-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
-    console.log(productId);
+
+    const container = document.querySelector(
+      `.cart-item-container-${productId}`
+    );
   });
+  container.classList.add('is-editing-quantity');
 });
