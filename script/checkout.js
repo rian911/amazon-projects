@@ -7,6 +7,7 @@ import {
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
+hello();
 let cartsummaryHTML = '';
 // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
 cart.forEach((cartItem) => {
@@ -102,22 +103,31 @@ cart.forEach((cartItem) => {
   </div>`;
 });
 
+// cartsummaryHTML isinya adalah hasil gabungan foreach setiap html diatas
 document.querySelector('.order-summary').innerHTML = cartsummaryHTML;
 
 // remove cart
+// ini untuk setiap class dengan nama delete-quantity link akan ditaruh kedalam paramater link
 document.querySelectorAll('.delete-quantity-link').forEach((link) => {
+  // kemudian paramter link dipanggil dan diberi evenlistener berupa click
   link.addEventListener('click', () => {
+    // setelah click delete dilakukan akan diberi perintah dibawah ini
+    // membuat link mengambil dataset productId kemudian disimpan kedalam variabel productId
     const productId = link.dataset.productId;
+    // memanggil funsi remove cart
     removeCart(productId);
+    // membuat elemen html dengan product id ditampung kedalam container
     const container = document.querySelector(
       `.cart-item-container-${productId}`
     );
+    // menghapus elemen html yang ada di atas
     container.remove();
 
     updateCartQuantity('.return-to-home-link');
   });
 });
 
+// untuk menampilkan jumlah cart pada awal page muncul atau saat di refresh
 updateCartQuantity('.return-to-home-link');
 
 document.querySelectorAll('.update-quantity-link').forEach((link) => {
@@ -162,7 +172,6 @@ document.querySelectorAll('.save-quantity-link').forEach((link) => {
     );
     quantityLabel.innerHTML = newQuantity;
 
-    // updateQuantity();
     updateCartQuantity('.return-to-home-link');
   });
 });
