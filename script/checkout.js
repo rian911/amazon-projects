@@ -8,6 +8,7 @@ import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
 hello();
+console.log(dayjs());
 let cartsummaryHTML = '';
 // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
 cart.forEach((cartItem) => {
