@@ -70,7 +70,7 @@ products.forEach((product) => {
 
 // merubah isi didalam class products-grid menjadi productsHTML
 document.querySelector('.products-grid').innerHTML = productsHTML;
-
+updateCartQuantity('.cart-quantity');
 // Memilih semua elemen dengan class 'add-to-cart-button'
 document.querySelectorAll('.add-to-cart-button').forEach((button) => {
   // Menambahkan event listener untuk setiap elemen
