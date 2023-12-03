@@ -6,10 +6,12 @@ if (!cart) {
     {
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
       quantity: 2,
+      deliveryOptionsId: '1',
     },
     {
       productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c7',
       quantity: 1,
+      deliveryOptionsId: '2',
     },
   ];
 }
@@ -62,6 +64,7 @@ export function addtoCart(productId) {
       //destructuring code ini dibawah ini
       productId: productId,
       quantity: selectedQuantity,
+      deliveryOptionsId: '1',
     });
   }
 
