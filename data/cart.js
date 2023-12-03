@@ -74,7 +74,6 @@ export function updateCartQuantity(clas) {
     cartQuantity += item.quantity;
   });
   document.querySelector(clas).innerHTML = cartQuantity;
-  console.log(cart);
 }
 
 // remove cart

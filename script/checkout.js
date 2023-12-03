@@ -7,8 +7,9 @@ import {
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
-hello();
-console.log(dayjs());
+const day = dayjs();
+const deliveryDate = day.add(7, 'days');
+console.log(deliveryDate.format('dddd, D MMMM'));
 let cartsummaryHTML = '';
 // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
 cart.forEach((cartItem) => {
