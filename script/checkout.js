@@ -6,7 +6,9 @@ import {
 } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 
+hello();
 const day = dayjs();
 const deliveryDate = day.add(7, 'days');
 console.log(deliveryDate.format('dddd, D MMMM'));
