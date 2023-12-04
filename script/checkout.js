@@ -11,41 +11,38 @@ import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions } from '../data/deliveryOption.js';
 
-hello();
-const day = dayjs();
-const deliveryDate = day.add(7, 'days');
-console.log(deliveryDate.format('dddd, D MMMM'));
-let cartsummaryHTML = '';
-// jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
-cart.forEach((cartItem) => {
-  // kemudian variabel productId dan memberikan value berupa cartItem.productId
-  const productId = cartItem.productId;
+function renderPageOrder() {
+  let cartsummaryHTML = '';
+  // jadi ini untuk setiap data yg ada didalam cart akan diberi parameter cartItem
+  cart.forEach((cartItem) => {
+    // kemudian variabel productId dan memberikan value berupa cartItem.productId
+    const productId = cartItem.productId;
 
-  //   membuat variabel matchingProduct
-  let matchingProduct;
-  // pada setiap data yg ada didalam products diberi parameter product
-  products.forEach((product) => {
-    // jika data product.id sama dengan data yg ada di cart namun ditaruh kedalam variabel productId
-    if (product.id === productId) {
-      // maka variabel matching product akan diberi value berupa data yg ada didalam parameter product
-      matchingProduct = product;
-    }
-  });
+    //   membuat variabel matchingProduct
+    let matchingProduct;
+    // pada setiap data yg ada didalam products diberi parameter product
+    products.forEach((product) => {
+      // jika data product.id sama dengan data yg ada di cart namun ditaruh kedalam variabel productId
+      if (product.id === productId) {
+        // maka variabel matching product akan diberi value berupa data yg ada didalam parameter product
+        matchingProduct = product;
+      }
+    });
 
-  const deliveryOptionId = cartItem.deliveryOptionsId;
-  let deliveryOption;
+    const deliveryOptionId = cartItem.deliveryOptionsId;
+    let deliveryOption;
 
-  deliveryOptions.forEach((option) => {
-    if (option.id === deliveryOptionId) {
-      deliveryOption = option;
-    }
-  });
+    deliveryOptions.forEach((option) => {
+      if (option.id === deliveryOptionId) {
+        deliveryOption = option;
+      }
+    });
 
-  const today = dayjs();
-  const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-  const dateString = deliveryDate.format('dddd, MMMM D');
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+    const dateString = deliveryDate.format('dddd, MMMM D');
 
-  cartsummaryHTML += `<div class="cart-item-container-${matchingProduct.id}">
+    cartsummaryHTML += `<div class="cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">Delivery date: ${dateString}</div>
 
     <div class="cart-item-details-grid">
@@ -87,21 +84,21 @@ cart.forEach((cartItem) => {
       </div>
     </div>
   </div>`;
-});
+  });
 
-function deliveryOptionsHTML(matchingProduct, cartItem) {
-  let html = '';
-  deliveryOptions.forEach((deliveryOption) => {
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString = deliveryDate.format('dddd, MMMM D');
-    const priceString =
-      deliveryOption.priceCents === 0
-        ? 'FREE'
-        : `$${formatCurrency(deliveryOption.priceCents)} -`;
+  function deliveryOptionsHTML(matchingProduct, cartItem) {
+    let html = '';
+    deliveryOptions.forEach((deliveryOption) => {
+      const today = dayjs();
+      const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+      const dateString = deliveryDate.format('dddd, MMMM D');
+      const priceString =
+        deliveryOption.priceCents === 0
+          ? 'FREE'
+          : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
-    const isChecked = deliveryOption.id === cartItem.deliveryOptionsId;
-    html += `<div class='delivery-option js-delivery-option'
+      const isChecked = deliveryOption.id === cartItem.deliveryOptionsId;
+      html += `<div class='delivery-option js-delivery-option'
     data-product-id="${matchingProduct.id}"
     data-delivery-option-id="${deliveryOption.id}">
       <input
@@ -115,86 +112,90 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
         <div class='delivery-option-price'>${priceString} - Shipping</div>
       </div>
     </div>`;
+    });
+    return html;
+  }
+
+  // cartsummaryHTML isinya adalah hasil gabungan foreach setiap html diatas
+  document.querySelector('.order-summary').innerHTML = cartsummaryHTML;
+
+  // remove cart
+  // ini untuk setiap class dengan nama delete-quantity link akan ditaruh kedalam paramater link
+  document.querySelectorAll('.delete-quantity-link').forEach((link) => {
+    // kemudian paramter link dipanggil dan diberi evenlistener berupa click
+    link.addEventListener('click', () => {
+      // setelah click delete dilakukan akan diberi perintah dibawah ini
+      // membuat link mengambil dataset productId kemudian disimpan kedalam variabel productId
+      const productId = link.dataset.productId;
+      // memanggil funsi remove cart
+      removeCart(productId);
+      // membuat elemen html dengan product id ditampung kedalam container
+      const container = document.querySelector(
+        `.cart-item-container-${productId}`
+      );
+      // menghapus elemen html yang ada di atas
+      container.remove();
+
+      updateCartQuantity('.return-to-home-link');
+    });
   });
-  return html;
+
+  // untuk menampilkan jumlah cart pada awal page muncul atau saat di refresh
+  updateCartQuantity('.return-to-home-link');
+
+  document.querySelectorAll('.update-quantity-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+
+      const container = document.querySelector(
+        `.cart-item-container-${productId}`
+      );
+      container.classList.add('is-editing-quantity');
+    });
+  });
+
+  document.querySelectorAll('.save-quantity-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+
+      // Here's an example of a feature we can add: validation.
+      // Note: we need to move the quantity-related code up
+      // because if the new quantity is not valid, we should
+      // return early and NOT run the rest of the code. This
+      // technique is called an "early return".
+
+      const quantityInput = document.querySelector(
+        `.js-quantity-input-${productId}`
+      );
+      const newQuantity = Number(quantityInput.value);
+
+      if (newQuantity < 0 || newQuantity >= 1000) {
+        alert('Quantity must be at least 0 and less than 1000');
+        return;
+      }
+      updateQuantity(productId, newQuantity);
+
+      const container = document.querySelector(
+        `.cart-item-container-${productId}`
+      );
+      container.classList.remove('is-editing-quantity');
+
+      const quantityLabel = document.querySelector(
+        `.js-quantity-label-${productId}`
+      );
+      quantityLabel.innerHTML = newQuantity;
+
+      updateCartQuantity('.return-to-home-link');
+    });
+  });
+
+  document.querySelectorAll('.js-delivery-option').forEach((element) => {
+    element.addEventListener('click', () => {
+      const { productId, deliveryOptionId } = element.dataset;
+      updateDeliveryOption(productId, deliveryOptionId);
+      renderPageOrder();
+    });
+  });
 }
 
-// cartsummaryHTML isinya adalah hasil gabungan foreach setiap html diatas
-document.querySelector('.order-summary').innerHTML = cartsummaryHTML;
-
-// remove cart
-// ini untuk setiap class dengan nama delete-quantity link akan ditaruh kedalam paramater link
-document.querySelectorAll('.delete-quantity-link').forEach((link) => {
-  // kemudian paramter link dipanggil dan diberi evenlistener berupa click
-  link.addEventListener('click', () => {
-    // setelah click delete dilakukan akan diberi perintah dibawah ini
-    // membuat link mengambil dataset productId kemudian disimpan kedalam variabel productId
-    const productId = link.dataset.productId;
-    // memanggil funsi remove cart
-    removeCart(productId);
-    // membuat elemen html dengan product id ditampung kedalam container
-    const container = document.querySelector(
-      `.cart-item-container-${productId}`
-    );
-    // menghapus elemen html yang ada di atas
-    container.remove();
-
-    updateCartQuantity('.return-to-home-link');
-  });
-});
-
-// untuk menampilkan jumlah cart pada awal page muncul atau saat di refresh
-updateCartQuantity('.return-to-home-link');
-
-document.querySelectorAll('.update-quantity-link').forEach((link) => {
-  link.addEventListener('click', () => {
-    const productId = link.dataset.productId;
-
-    const container = document.querySelector(
-      `.cart-item-container-${productId}`
-    );
-    container.classList.add('is-editing-quantity');
-  });
-});
-
-document.querySelectorAll('.save-quantity-link').forEach((link) => {
-  link.addEventListener('click', () => {
-    const productId = link.dataset.productId;
-
-    // Here's an example of a feature we can add: validation.
-    // Note: we need to move the quantity-related code up
-    // because if the new quantity is not valid, we should
-    // return early and NOT run the rest of the code. This
-    // technique is called an "early return".
-
-    const quantityInput = document.querySelector(
-      `.js-quantity-input-${productId}`
-    );
-    const newQuantity = Number(quantityInput.value);
-
-    if (newQuantity < 0 || newQuantity >= 1000) {
-      alert('Quantity must be at least 0 and less than 1000');
-      return;
-    }
-    updateQuantity(productId, newQuantity);
-
-    const container = document.querySelector(
-      `.cart-item-container-${productId}`
-    );
-    container.classList.remove('is-editing-quantity');
-
-    const quantityLabel = document.querySelector(
-      `.js-quantity-label-${productId}`
-    );
-    quantityLabel.innerHTML = newQuantity;
-
-    updateCartQuantity('.return-to-home-link');
-  });
-});
-
-document.querySelectorAll('.js-delivery-option').forEach((element) => {
-  element.addEventListener('click', () => {
-    const { productId, deliveryOptionId } = element.dataset;
-    updateDeliveryOption(productId, deliveryOptionId);
-  });
-});
+renderPageOrder();
