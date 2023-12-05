@@ -185,6 +185,7 @@ export function renderPageOrder() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderPageOrder();
+      renderPayment();
     });
   });
 }
