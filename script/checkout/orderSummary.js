@@ -5,10 +5,13 @@ import {
   updateQuantity,
   updateDeliveryOption,
 } from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions } from '../../data/deliveryOption.js';
+import {
+  deliveryOptions,
+  getDeliveryOption,
+} from '../../data/deliveryOption.js';
 
 export function renderPageOrder() {
   let cartsummaryHTML = '';
@@ -17,25 +20,10 @@ export function renderPageOrder() {
     // kemudian variabel productId dan memberikan value berupa cartItem.productId
     const productId = cartItem.productId;
 
-    //   membuat variabel matchingProduct
-    let matchingProduct;
-    // pada setiap data yg ada didalam products diberi parameter product
-    products.forEach((product) => {
-      // jika data product.id sama dengan data yg ada di cart namun ditaruh kedalam variabel productId
-      if (product.id === productId) {
-        // maka variabel matching product akan diberi value berupa data yg ada didalam parameter product
-        matchingProduct = product;
-      }
-    });
+    const matchingProduct = getProduct(productId);
 
     const deliveryOptionId = cartItem.deliveryOptionsId;
-    let deliveryOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        deliveryOption = option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
