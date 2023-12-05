@@ -12,6 +12,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from '../../data/deliveryOption.js';
+import { renderPayment } from './paymentSummary.js';
 
 export function renderPageOrder() {
   let cartsummaryHTML = '';
@@ -126,6 +127,7 @@ export function renderPageOrder() {
       container.remove();
 
       updateCartQuantity('.return-to-home-link');
+      renderPayment();
     });
   });
 
