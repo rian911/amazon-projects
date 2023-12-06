@@ -177,6 +177,7 @@ export function renderPageOrder() {
       quantityLabel.innerHTML = newQuantity;
 
       updateCartQuantity('.return-to-home-link');
+      renderPayment();
     });
   });
 
